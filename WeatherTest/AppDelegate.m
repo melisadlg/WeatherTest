@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "MenuViewController.h"
+#import "MMDrawerController.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +16,37 @@
 
 @implementation AppDelegate
 
+@synthesize drawerController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //Setting up views for MMDrawerController library
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle:nil];
+    
+    UIViewController *centerViewController = (UIViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"ViewController"];
+    
+    MenuViewController *menuViewController = (MenuViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
+    
+    
+    UINavigationController *leftSideNav = [[UINavigationController alloc] initWithRootViewController:menuViewController];
+    UINavigationController *centerNav = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+    
+    drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:centerNav
+                                             leftDrawerViewController:leftSideNav];
+                                             
+    drawerController.maximumLeftDrawerWidth = 190.0; //This can be changed to any width desired
+    
+    //Setting to open the "drawer" with panning gesture anywhere on the screen
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModePanningCenterView];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView];
+    
+    [self.window setRootViewController:drawerController];
+    
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "NextDay.h"
+#import "MMDrawerController.h"
+#import "AppDelegate.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <CLLocationManagerDelegate, UIScrollViewDelegate>
 
+- (void) loadWeather:(NSString *)city lblcountry:(NSString *)country;
 
 @end
 
